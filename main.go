@@ -1,7 +1,7 @@
 package main
 
 import (
-	"homework6/internal/service"
+	"homework7/internal/service"
 )
 
 //type Order struct {

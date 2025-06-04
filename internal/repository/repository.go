@@ -2,7 +2,7 @@ package repository
 
 import (
 	"fmt"
-	"homework6/internal/model"
+	"homework7/internal/model"
 )
 
 // var adminka []model.Adminka

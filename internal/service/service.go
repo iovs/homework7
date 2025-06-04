@@ -1,8 +1,8 @@
 package service
 
 import (
-	"homework6/internal/model"
-	"homework6/internal/repository"
+	"homework7/internal/model"
+	"homework7/internal/repository"
 //	"math/rand"
 //	"time"
 )
