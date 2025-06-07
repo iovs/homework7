@@ -13,5 +13,8 @@ func main() {
 
 	go service.GenerateItems(dataCh)
 	go repository.ReceiveData(dataCh, doneCh)
-	logger.Start(doneCh)
+	for _ = range doneCh {
+		go logger.Start(doneCh)
+	}
+	//time.Sleep(time.Second)
 }
