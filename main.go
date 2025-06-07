@@ -5,6 +5,7 @@ import (
 	"homework7/internal/model"
 	"homework7/internal/repository"
 	"homework7/internal/service"
+	"time"
 )
 
 func main() {
@@ -13,5 +14,6 @@ func main() {
 
 	go service.GenerateItems(dataCh)
 	go repository.ReceiveData(dataCh, doneCh)
-	logger.Start(doneCh)
+	go logger.Start(doneCh)
+	time.Sleep(time.Second)
 }
