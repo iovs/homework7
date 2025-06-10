@@ -18,11 +18,10 @@ func main() {
 	go service.GenerateItems(dataCh, &wg)
 	wg.Add(1)
 	go service.ReceiveData(dataCh, &wg)
-	wg.Add(1)
-	go logger.Start(doneCh, &wg)
 	lwg.Add(1)
-	defer wg.Wait()
+	go logger.Start(doneCh, &lwg)
+	wg.Wait()
 	close(doneCh)
-	lwg.Done()
-
+	lwg.Wait()
+	//lwg.Done()
 }
