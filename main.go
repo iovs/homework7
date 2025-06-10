@@ -20,6 +20,6 @@ func main() {
 	go service.ReceiveData(dataCh, &wg)
 	wg.Add(1)
 	go logger.Start(doneCh, &wg)
+	close(doneCh)
 	wg.Wait()
-	defer close(doneCh)
 }
