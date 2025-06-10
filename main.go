@@ -17,8 +17,9 @@ func main() {
 	wg.Add(1)
 	go service.GenerateItems(dataCh, &wg)
 	wg.Add(1)
-	go service.ReceiveData(dataCh, doneCh, &wg)
+	go service.ReceiveData(dataCh, &wg)
 	wg.Add(1)
 	go logger.Start(doneCh, &wg)
 	wg.Wait()
+	defer close(doneCh)
 }

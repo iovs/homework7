@@ -16,6 +16,8 @@ var (
 )
 
 func AddData(data model.ID) {
+	mu.Lock()
+	defer mu.Unlock()
 	switch v := data.(type) {
 	case model.Order:
 		order = append(order, &v)

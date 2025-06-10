@@ -53,8 +53,8 @@ func Start(done <-chan struct{}, wg *sync.WaitGroup) {
 		check(len(as), prevA, as)
 		prevO, prevP, prevC, prevU, prevA = len(os), len(ps), len(cs), len(us), len(as)
 
-		if _, ok := <-done; !ok {
-			break
-		}
+		//if _, ok := <-done; !ok {
+		break
+		//}
 	}
 }

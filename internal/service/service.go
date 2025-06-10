@@ -55,8 +55,9 @@ func GenerateItems(ch chan<- model.ID, wg *sync.WaitGroup) {
 	}
 }
 
-func ReceiveData(ch <-chan model.ID, done chan<- struct{}, wg *sync.WaitGroup) {
-	defer close(done)
+func ReceiveData(ch <-chan model.ID, wg *sync.WaitGroup) {
+	//func ReceiveData(ch <-chan model.ID, done chan<- struct{}, wg *sync.WaitGroup) {
+	//defer close(done)
 	defer wg.Done()
 	for v := range ch {
 		repository.AddData(v)
