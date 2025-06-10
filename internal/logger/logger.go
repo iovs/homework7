@@ -37,10 +37,10 @@ func check(sliceLen, prevLen int, slice any) {
 
 // Start каждые 200 миллисекунд проверяет, сколько элементов в слайсах,
 // и выводит только что добавленные
-func Start(done <-chan struct{}, lwg *sync.WaitGroup) {
+func Start(done <-chan struct{}, wg *sync.WaitGroup) {
 	ticker := time.NewTicker(200 * time.Millisecond)
 	defer ticker.Stop()
-	lwg.Done()
+	defer wg.Done()
 
 	var prevO, prevP, prevC, prevU, prevA int
 

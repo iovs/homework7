@@ -21,6 +21,8 @@ func main() {
 	wg.Add(1)
 	go logger.Start(doneCh, &wg)
 	lwg.Add(1)
-	wg.Wait()
+	defer wg.Wait()
 	close(doneCh)
+	lwg.Done()
+
 }
