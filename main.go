@@ -10,16 +10,17 @@ import (
 func main() {
 	//service.Createitem()
 	var wg sync.WaitGroup
+	var lwg sync.WaitGroup
 
 	dataCh := make(chan model.ID)
 	doneCh := make(chan struct{})
-
 	wg.Add(1)
 	go service.GenerateItems(dataCh, &wg)
 	wg.Add(1)
 	go service.ReceiveData(dataCh, &wg)
 	wg.Add(1)
 	go logger.Start(doneCh, &wg)
-	close(doneCh)
+	lwg.Add(1)
 	wg.Wait()
+	close(doneCh)
 }
