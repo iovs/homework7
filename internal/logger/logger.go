@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"homework7/internal/model"
 	"homework7/internal/repository"
-	"sync"
 	"time"
 )
 
@@ -37,12 +36,12 @@ func check(sliceLen, prevLen int, slice any) {
 
 // Start каждые 200 миллисекунд проверяет, сколько элементов в слайсах,
 // и выводит только что добавленные
-func Start(done <-chan struct{}, lwg *sync.WaitGroup) {
+func Start(done <-chan struct{}) {
 	ticker := time.NewTicker(200 * time.Millisecond)
 	defer ticker.Stop()
 	//lwg.Wait()
 	//defer close(done)
-	defer lwg.Done()
+	//defer lwg.Done()
 
 	var prevO, prevP, prevC, prevU, prevA int
 
@@ -54,9 +53,8 @@ func Start(done <-chan struct{}, lwg *sync.WaitGroup) {
 		check(len(us), prevU, us)
 		check(len(as), prevA, as)
 		prevO, prevP, prevC, prevU, prevA = len(os), len(ps), len(cs), len(us), len(as)
-
-		if _, ok := <-done; !ok {
-			break
-		}
+		//if _, ok := <-done; !ok {
+		//break
+		//}
 	}
 }

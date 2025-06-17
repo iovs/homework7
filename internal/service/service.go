@@ -1,9 +1,11 @@
 package service
 
 import (
+	"fmt"
 	"homework7/internal/model"
 	"homework7/internal/repository"
-	"sync"
+	//	"sync"
+	"time"
 )
 
 //var (
@@ -36,11 +38,11 @@ import (
 //}
 
 // GenerateItems отправляет в канал по одному элементу.
-func GenerateItems(ch chan<- model.ID, wg *sync.WaitGroup) {
-	defer close(ch)
-	defer wg.Done()
+func GenerateItems(ch chan<- model.ID) {
+	//defer close(ch)
+	//defer wg.Done()
 	for i := 1; i < 6; i++ {
-		switch i {
+		switch {
 		case 1:
 			ch <- model.Product{ID: 1}
 		case 2:
@@ -55,11 +57,30 @@ func GenerateItems(ch chan<- model.ID, wg *sync.WaitGroup) {
 	}
 }
 
-func ReceiveData(ch <-chan model.ID, wg *sync.WaitGroup) {
+func ReceiveData(ch <-chan model.ID) {
 	//func ReceiveData(ch <-chan model.ID, done chan<- struct{}, wg *sync.WaitGroup) {
 	//defer close(done)
-	defer wg.Done()
+	//defer wg.Done()
 	for v := range ch {
 		repository.AddData(v)
+	}
+}
+
+func StartGeneration(dataCh <-chan model.ID, doneCh <-chan chan struct{}) {
+	//ticker.C := make(chan model.ID)
+	ticker := time.NewTicker(200 * time.Millisecond)
+	defer ticker.Stop()
+	//defer close(doneCh)
+
+	for i := 0; i >= 0; i++ {
+
+		select {
+		case msg1 := <-dataCh:
+			fmt.Println("Данные из канала dataCh", msg1)
+			return
+		case msg2 := <-doneCh:
+			fmt.Println("Данные из канала doneCh", msg2)
+			GenerateItems(doneCh)
+		}
 	}
 }
