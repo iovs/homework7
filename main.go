@@ -21,17 +21,20 @@ func main() {
 
 	wg.Add(1)
 	go func() {
+		defer wg.Done()
 		service.GenerateItems(dataCh)
 	}()
 
 	wg.Add(1)
 	go func() {
+		defer wg.Done()
 		service.ReceiveData(dataCh)
 	}()
 
 	wg.Add(1)
 	go func() {
 		wg.Wait()
+		defer wg.Done()
 		logger.Start(doneCh)
 	}()
 	//close(doneCh)
