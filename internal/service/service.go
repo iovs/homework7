@@ -2,10 +2,13 @@ package service
 
 import (
 	"fmt"
+	"time"
+
+	//	"homework7/internal/logger"
 	"homework7/internal/model"
 	"homework7/internal/repository"
-	//	"sync"
-	"time"
+	"math/rand"
+	//	"time"
 )
 
 //var (
@@ -41,19 +44,19 @@ import (
 func GenerateItems(ch chan<- model.ID) {
 	//defer close(ch)
 	//defer wg.Done()
-	for i := 1; i < 6; i++ {
-		switch {
-		case 1:
-			ch <- model.Product{ID: 1}
-		case 2:
-			ch <- model.Category{ID: 2}
-		case 3:
-			ch <- model.Order{ID: 3}
-		case 4:
-			ch <- model.User{ID: 4}
-		case 5:
-			ch <- model.Adminka{ID: 5}
-		}
+	//for i := 1; i < 6; i++ {
+	i := rand.Intn(5)
+	switch i {
+	case 1:
+		ch <- model.Product{ID: 1}
+	case 2:
+		ch <- model.Category{ID: 2}
+	case 3:
+		ch <- model.Order{ID: 3}
+	case 4:
+		ch <- model.User{ID: 4}
+	case 5:
+		ch <- model.Adminka{ID: 5}
 	}
 }
 
@@ -66,21 +69,21 @@ func ReceiveData(ch <-chan model.ID) {
 	}
 }
 
-func StartGeneration(dataCh <-chan model.ID, doneCh <-chan chan struct{}) {
-	//ticker.C := make(chan model.ID)
+func StartGeneration(doneCh <-chan struct{}, ch chan model.ID) {
 	ticker := time.NewTicker(200 * time.Millisecond)
 	defer ticker.Stop()
 	//defer close(doneCh)
+	defer close(ch)
 
-	for i := 0; i >= 0; i++ {
-
+	for {
 		select {
-		case msg1 := <-dataCh:
-			fmt.Println("Данные из канала dataCh", msg1)
-			return
+		case msg1 := <-ticker.C:
+			fmt.Println("Данные из канала ticker.C", msg1)
+			GenerateItems(ch)
 		case msg2 := <-doneCh:
 			fmt.Println("Данные из канала doneCh", msg2)
-			GenerateItems(doneCh)
+			//GenerateItems()
+			return
 		}
 	}
 }

@@ -39,7 +39,7 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		service.StartGeneration(dataCh)
+		service.StartGeneration(doneCh, dataCh)
 	}()
 
 	sigChan := make(chan os.Signal, 1)
