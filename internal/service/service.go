@@ -1,14 +1,10 @@
 package service
 
 import (
-	"fmt"
-	"time"
-
-	//	"homework7/internal/logger"
 	"homework7/internal/model"
 	"homework7/internal/repository"
 	"math/rand"
-	//	"time"
+	"time"
 )
 
 //var (
@@ -72,17 +68,17 @@ func ReceiveData(ch <-chan model.ID) {
 func StartGeneration(doneCh <-chan struct{}, ch chan model.ID) {
 	ticker := time.NewTicker(200 * time.Millisecond)
 	defer ticker.Stop()
-	//defer close(doneCh)
 	defer close(ch)
 
 	for {
 		select {
-		case msg1 := <-ticker.C:
-			fmt.Println("Данные из канала ticker.C", msg1)
+		// case msg1 := <-ticker.C:
+		case <-ticker.C:
+			//	fmt.Println("Данные из канала ticker.C", msg1)
 			GenerateItems(ch)
-		case msg2 := <-doneCh:
-			fmt.Println("Данные из канала doneCh", msg2)
-			//GenerateItems()
+		//case msg2 := <-doneCh:
+		case <-doneCh:
+			//	fmt.Println("Данные из канала doneCh", msg2)
 			return
 		}
 	}
