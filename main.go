@@ -33,7 +33,7 @@ func main() {
 
 	wg.Add(1)
 	go func() {
-		wg.Wait()
+		//wg.Wait()
 		defer wg.Done()
 		logger.Start(doneCh)
 	}()
