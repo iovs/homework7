@@ -42,16 +42,17 @@ func Start(done <-chan struct{}) {
 
 	var prevO, prevP, prevC, prevU, prevA int
 
-	for range ticker.C {
-		os, ps, cs, us, as := repository.Snapshot()
-		check(len(os), prevO, os)
-		check(len(ps), prevP, ps)
-		check(len(cs), prevC, cs)
-		check(len(us), prevU, us)
-		check(len(as), prevA, as)
-		prevO, prevP, prevC, prevU, prevA = len(os), len(ps), len(cs), len(us), len(as)
-
-		if _, ok := <-done; !ok {
+	for {
+		select {
+		case <-ticker.C:
+			os, ps, cs, us, as := repository.Snapshot()
+			check(len(os), prevO, os)
+			check(len(ps), prevP, ps)
+			check(len(cs), prevC, cs)
+			check(len(us), prevU, us)
+			check(len(as), prevA, as)
+			prevO, prevP, prevC, prevU, prevA = len(os), len(ps), len(cs), len(us), len(as)
+		case <-done:
 			break
 		}
 	}
