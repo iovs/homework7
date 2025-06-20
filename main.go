@@ -19,11 +19,11 @@ func main() {
 	dataCh := make(chan model.ID)
 	doneCh := make(chan struct{})
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		service.GenerateItems(dataCh)
-	}()
+	//wg.Add(1)
+	//go func() {
+	//	defer wg.Done()
+	//	service.GenerateItems(dataCh)
+	//}()
 
 	wg.Add(1)
 	go func() {
@@ -33,11 +33,9 @@ func main() {
 
 	wg.Add(1)
 	go func() {
-		//wg.Wait()
 		defer wg.Done()
 		logger.Start(doneCh)
 	}()
-	//close(doneCh)
 
 	wg.Add(1)
 	go func() {
@@ -49,10 +47,7 @@ func main() {
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 
 	sig := <-sigChan
-	fmt.Printf("Received signal: %v. Shutting down...\n", sig)
+	fmt.Printf("Получили сигнал: %v. Заканчиваю работу...\n", sig)
 	close(doneCh)
-	//wg.Wait()
-	//close(doneCh)
-	//lwg.Wait()
-	//lwg.Done()
+	wg.Wait()
 }

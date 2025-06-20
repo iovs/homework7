@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"homework7/internal/model"
 	"homework7/internal/repository"
 	"math/rand"
@@ -76,9 +77,9 @@ func StartGeneration(doneCh <-chan struct{}, ch chan model.ID) {
 		case <-ticker.C:
 			//	fmt.Println("Данные из канала ticker.C", msg1)
 			GenerateItems(ch)
-		//case msg2 := <-doneCh:
-		case <-doneCh:
-			//	fmt.Println("Данные из канала doneCh", msg2)
+		case msg2 := <-doneCh:
+			//case <-doneCh:
+			fmt.Println("Данные из канала doneCh - Программа прервана пользователем", msg2)
 			return
 		}
 	}
