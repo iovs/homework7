@@ -53,7 +53,7 @@ func Start(done <-chan struct{}) {
 			check(len(as), prevA, as)
 			prevO, prevP, prevC, prevU, prevA = len(os), len(ps), len(cs), len(us), len(as)
 		case <-done:
-			break
+			return
 		}
 	}
 }
